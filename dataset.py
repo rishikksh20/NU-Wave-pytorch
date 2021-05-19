@@ -51,17 +51,16 @@ class MelFromDisk(Dataset):
         id = os.path.basename(wavpath).split(".")[0]
         audio, sr = T.load_wav(wavpath)
         if self.params.new_sample_rate != sr:
-            print(id)
-            #raise ValueError(f"Invalid sample rate {sr}.")
-        #audio = torch.clamp(audio[0].squeeze(0) / 32767.5, -1.0, 1.0)
+            raise ValueError(f"Invalid sample rate {sr}.")
+
 
         start = np.random.randint(0, audio.shape[1] - self.params.n_segment - 1)
-        #print(audio.shape)
+
         if audio.shape[0] == 2:
             audio = audio[0, :]
         audio = audio.squeeze(0)[start : start + self.params.n_segment]
 
-        #print(id, audio.shape)
+
         lr_audio = self.downsample(audio)
         lr_audio = lr_audio / 32767.5
         audio = audio / 32767.5
