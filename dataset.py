@@ -32,8 +32,9 @@ class MelFromDisk(Dataset):
 
         self.mapping = [i for i in range(len(self.wav_list))]
         self.downsample = T.transforms.Resample(
-            params.new_sample_rate, params.sample_rate,
-            resampling_method='sinc_interpolation'
+            params.new_sample_rate,
+            params.sample_rate,
+            resampling_method="sinc_interpolation",
         )
 
     def __len__(self):
@@ -51,21 +52,14 @@ class MelFromDisk(Dataset):
 
         audio, sr = T.load_wav(wavpath)
         if self.params.new_sample_rate != sr:
-            raise ValueError(f'Invalid sample rate {sr}.')
+            raise ValueError(f"Invalid sample rate {sr}.")
         # audio = torch.clamp(audio[0] / 32767.5, -1.0, 1.0)
 
-
-        start = np.random.randint(
-            0, audio.shape[1] - self.params.n_segment - 1
-        )
-        audio = audio.squeeze(0)[start: start + self.params.n_segment]
+        start = np.random.randint(0, audio.shape[1] - self.params.n_segment - 1)
+        audio = audio.squeeze(0)[start : start + self.params.n_segment]
         lr_audio = self.downsample(audio)
 
         audio = audio / 32767.5
         lr_audio = lr_audio / 32767.5
 
-        return {
-            'audio': audio,
-            'lr_audio': lr_audio,
-            'id': id
-        }
+        return {"audio": audio, "lr_audio": lr_audio, "id": id}
