@@ -108,7 +108,6 @@ class NUWave(nn.Module):
         self.residual_layers = nn.ModuleList(
             [
                 ResidualBlock(
-                    params.n_mels,
                     params.residual_channels,
                     2 ** (i % params.dilation_cycle_length),
                 )

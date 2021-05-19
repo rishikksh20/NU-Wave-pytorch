@@ -18,7 +18,7 @@ def predict(lr_audio, model_dir=None, params=None, device=torch.device("cuda")):
         if os.path.exists(f"{model_dir}/weights.pt"):
             checkpoint = torch.load(f"{model_dir}/weights.pt")
         else:
-            checkpoint = torch.load(model_dir)
+            checkpoint = torch.load(model_dir, map_location=device)
         model = NUWave(AttrDict(base_params)).to(device)
         model.load_state_dict(checkpoint["model"])
         model.eval()
@@ -62,8 +62,7 @@ def main(args):
     params = {}
     # if args.noise_schedule:
     #     params["noise_schedule"] = torch.from_numpy(np.load(args.noise_schedule))
-    if lr_audio.shape[0] == 2:
-        lr_audio = lr_audio[0, :]
+    
     audio, sr = predict(lr_audio, model_dir=args.model_dir, params=params)
     torchaudio.save(args.output, audio.cpu(), sample_rate=sr)
 
