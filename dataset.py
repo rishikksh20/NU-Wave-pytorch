@@ -53,13 +53,11 @@ class MelFromDisk(Dataset):
         if self.params.new_sample_rate != sr:
             raise ValueError(f"Invalid sample rate {sr}.")
 
-
         start = np.random.randint(0, audio.shape[1] - self.params.n_segment - 1)
 
         if audio.shape[0] == 2:
             audio = audio[0, :]
         audio = audio.squeeze(0)[start : start + self.params.n_segment]
-
 
         lr_audio = self.downsample(audio)
         lr_audio = lr_audio / 32767.5
