@@ -4,7 +4,7 @@ For Official repo visit [here](https://github.com/mindslab-ai/nuwave).
 
 ## Train :
 ```
-python3 train.py  chkpt_dir --max_steps 1000
+python3 train.py  chkpt_dir --max_steps 1000000
 ```
 
 ## Inference :
