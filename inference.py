@@ -27,7 +27,7 @@ def predict(lr_audio, model_dir=None, params=None, device=torch.device("cuda")):
     model = models[model_dir]
     model.params.override(params)
     with torch.no_grad():
-        beta = np.array(params.inference_noise_schedule)
+        beta = np.array(model.params.inference_noise_schedule)
         alpha = 1 - beta
         alpha_cum = np.cumprod(alpha)
 
@@ -56,10 +56,14 @@ def predict(lr_audio, model_dir=None, params=None, device=torch.device("cuda")):
 
 
 def main(args):
-    lr_audio = torchaudio.load(args.audio_path)
+    lr_audio, sr = torchaudio.load(args.audio_path)
+    if 22050 != sr:
+        raise ValueError(f"Invalid sample rate {sr}.")
     params = {}
     # if args.noise_schedule:
     #     params["noise_schedule"] = torch.from_numpy(np.load(args.noise_schedule))
+    if lr_audio.shape[0] == 2:
+        lr_audio = lr_audio[0, :]
     audio, sr = predict(lr_audio, model_dir=args.model_dir, params=params)
     torchaudio.save(args.output, audio.cpu(), sample_rate=sr)
 
