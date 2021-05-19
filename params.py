@@ -19,9 +19,9 @@ class AttrDict(dict):
 
 params = AttrDict(
     # Training params
-    path="/mnt/dev/christine_nugan/wavs_44k_christine_nugan/",
+    path="/mnt/dev/jean/wavs_44k_jean_nugan/",
     data_dir="./preprocessed/",
-    batch_size=16,
+    batch_size=4,
     learning_rate=2e-4,
     max_grad_norm=None,
     # Data params
@@ -38,7 +38,7 @@ params = AttrDict(
     residual_layers=30,
     residual_channels=64,
     dilation_cycle_length=10,
-    noise_schedule=np.linspace(1e-4, 0.05, 50).tolist(),
+    noise_schedule=np.linspace(1e-6, 0.006, 1000).tolist(),
     inference_noise_schedule=[
         0.000001,
         0.000002,

@@ -5,26 +5,13 @@ import numpy as np
 import torchaudio as T
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.distributed import DistributedSampler
+from params import params
+from tqdm import tqdm
+import torch
 
-
-def create_dataloader(params, train, is_distributed=False):
-    dataset = MelFromDisk(params, train)
-
-    return DataLoader(
-        dataset=dataset,
-        batch_size=params.batch_size,
-        shuffle=not is_distributed,
-        sampler=DistributedSampler(dataset) if is_distributed else None,
-        num_workers=0,
-        pin_memory=True,
-        drop_last=True,
-    )
-
-
-class MelFromDisk(Dataset):
-    def __init__(self, params, train):
+class MelFromDisk():
+    def __init__(self, params):
         self.params = params
-        self.train = train
         self.path = params.path
         self.wav_list = glob.glob(
             os.path.join(self.path, "**", "*.wav"), recursive=True
@@ -37,16 +24,7 @@ class MelFromDisk(Dataset):
             resampling_method="sinc_interpolation",
         )
 
-    def __len__(self):
-        return len(self.wav_list)
-
-    def __getitem__(self, idx):
-        return self.my_getitem(idx)
-
-    def shuffle_mapping(self):
-        random.shuffle(self.mapping)
-
-    def my_getitem(self, idx):
+    def check_dataset(self, idx):
         wavpath = self.wav_list[idx]
         id = os.path.basename(wavpath).split(".")[0]
         audio, sr = T.load_wav(wavpath)
@@ -60,10 +38,19 @@ class MelFromDisk(Dataset):
         if audio.shape[0] == 2:
             audio = audio[0, :]
         audio = audio.squeeze(0)[start : start + self.params.n_segment]
-
+        audio = audio / 32767.5
         #print(id, audio.shape)
         lr_audio = self.downsample(audio)
         lr_audio = lr_audio / 32767.5
-        audio = audio / 32767.5
+
 
         return {"audio": audio, "lr_audio": lr_audio, "id": id}
+
+if __name__ == "__main__":
+    M = MelFromDisk(params)
+    for i in tqdm(range(0, len(M.wav_list))):
+        try:
+            out = M.check_dataset(i)
+        except Exception as e:
+            print(e)
+            continue
