@@ -22,7 +22,7 @@ params = AttrDict(
     path="/mnt/dev/jean/wavs_44k_jean_nugan/",
     data_dir="./preprocessed/",
     batch_size=4,
-    learning_rate=2e-4,
+    learning_rate=3e-5,
     max_grad_norm=None,
     # Data params
     sample_rate=22050,
