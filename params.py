@@ -39,14 +39,5 @@ params = AttrDict(
     residual_channels=64,
     dilation_cycle_length=10,
     noise_schedule=np.linspace(1e-6, 0.006, 1000).tolist(),
-    inference_noise_schedule=[
-        0.000001,
-        0.000002,
-        0.00001,
-        0.0001,
-        0.001,
-        0.01,
-        0.1,
-        0.9,
-    ],
+    inference_noise_schedule=np.linspace(1e-6, 0.006, 150).tolist(),
 )
