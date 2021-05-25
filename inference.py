@@ -62,7 +62,7 @@ def main(args):
     params = {}
     # if args.noise_schedule:
     #     params["noise_schedule"] = torch.from_numpy(np.load(args.noise_schedule))
-    
+
     audio, sr = predict(lr_audio, model_dir=args.model_dir, params=params)
     torchaudio.save(args.output, audio.cpu(), sample_rate=sr)
 

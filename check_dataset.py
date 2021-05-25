@@ -28,7 +28,6 @@ class AudioDataset:
         if self.params.new_sample_rate != sr:
             raise ValueError(f"Invalid sample rate {sr}.")
 
-
         start = np.random.randint(0, audio.shape[1] - self.params.n_segment - 1)
 
         if audio.shape[0] == 2:
