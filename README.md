@@ -30,4 +30,5 @@ python3 inference.py weights-chkpt.pt low_resolution_22k.wav -o "output.wav"
 - [J.Ho's official DDPM implementation.](https://github.com/hojonathanho/diffusion)
 - [ivanvok's WaveGrad pytorch implementation.](https://github.com/ivanvovk/WaveGrad)
 - [lmnt-com's DiffWave pytorch implementation.](https://github.com/lmnt-com/diffwave)
+- [lmnt-com's WaveGrad pytorch implementation.](https://github.com/lmnt-com/wavegrad)
 
