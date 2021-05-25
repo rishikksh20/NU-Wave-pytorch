@@ -240,7 +240,7 @@ if __name__ == "__main__":
         "model_dir",
         help="directory in which to store model checkpoints and training logs",
     )
-    # parser.add_argument('data_dirs', nargs='+', help='space separated list of directories from which to read .wav files for training')
+    
     parser.add_argument(
         "--max_steps", default=None, type=int, help="maximum number of training steps"
     )
