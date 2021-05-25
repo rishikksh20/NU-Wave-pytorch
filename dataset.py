@@ -8,7 +8,7 @@ from torch.utils.data.distributed import DistributedSampler
 
 
 def create_dataloader(params, train, is_distributed=False):
-    dataset = MelFromDisk(params, train)
+    dataset = AudioDataset(params, train)
 
     return DataLoader(
         dataset=dataset,
@@ -21,7 +21,7 @@ def create_dataloader(params, train, is_distributed=False):
     )
 
 
-class MelFromDisk(Dataset):
+class AudioDataset(Dataset):
     def __init__(self, params, train):
         self.params = params
         self.train = train

@@ -6,7 +6,7 @@ from params import params
 from tqdm import tqdm
 
 
-class MelFromDisk:
+class AudioDataset:
     def __init__(self, params):
         self.params = params
         self.path = params.path
@@ -43,7 +43,7 @@ class MelFromDisk:
 
 
 if __name__ == "__main__":
-    M = MelFromDisk(params)
+    M = AudioDataset(params)
     for i in tqdm(range(0, len(M.wav_list))):
         try:
             out = M.check_dataset(i)

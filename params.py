@@ -19,9 +19,9 @@ class AttrDict(dict):
 
 params = AttrDict(
     # Training params
-    path="/mnt/dev/jean/wavs_44k_jean_nugan/",
-    data_dir="./preprocessed/",
-    batch_size=4,
+    path="wavs_dir",
+    data_dir="./data/",
+    batch_size=12,
     learning_rate=3e-5,
     max_grad_norm=None,
     # Data params
